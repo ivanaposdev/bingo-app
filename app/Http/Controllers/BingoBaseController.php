@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class BingoBaseController extends Controller
 {
-    protected function generateCard(): Card
+    protected function generateCard(bool $isEmpty = false): Card
     {
         $card = [];
         $minMax = [
@@ -25,18 +25,12 @@ class BingoBaseController extends Controller
             $card[] = array_slice($column, 0, 5, true);
         }
 
-        $card[2][2] = 0;
-
-        return Card::create([
+        return Card::create($isEmpty ? [] : [
             'b' => implode(',', $card[0]),
             'i' => implode(',', $card[1]),
             'n' => implode(',', $card[2]),
             'g' => implode(',', $card[3]),
             'o' => implode(',', $card[4]),
         ]);
-    }
-
-    protected function parse()
-    {
     }
 }
