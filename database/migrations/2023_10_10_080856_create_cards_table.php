@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
-            $table->string('b');
-            $table->string('i');
-            $table->string('n');
-            $table->string('g');
-            $table->string('o');
+            $table->foreignId('card_id')->nullable();
+            $table->string('b')->nullable();
+            $table->string('i')->nullable();
+            $table->string('n')->nullable();
+            $table->string('g')->nullable();
+            $table->string('o')->nullable();
             $table->timestamps();
         });
     }
