@@ -3,17 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
     public function store(AuthRequest $request)
     {
         $validated = $request->safe();
@@ -31,20 +25,5 @@ class AuthController extends Controller
         $user = User::create($validated);
 
         return $user->createToken($user->name)->plainTextToken;
-    }
-
-    public function show(string $id)
-    {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
     }
 }

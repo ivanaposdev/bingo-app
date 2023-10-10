@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
-use App\Models\User;
-use Illuminate\Http\Request;
 
 class BingoBaseController extends Controller
 {
+    const BINGO = ['b', 'i', 'n', 'g', 'o'];
+
     protected function generateCard(bool $isEmpty = false): Card
     {
         $card = [];

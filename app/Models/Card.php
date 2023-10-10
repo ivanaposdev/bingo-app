@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Card extends Model
@@ -33,8 +33,7 @@ class Card extends Model
         [$min, $max] = $data[$letter];
         $number = array_rand(range($min, $max));
 
-        // TODO: optimize, time constraint
-        // check if number and letter combo exists in history
+        // TODO: to be optimized, time constraint
         $historyData = empty($history->{$letter}) ? [] : explode(',', $history->{$letter});
 
         if (!in_array($number, $historyData)) {

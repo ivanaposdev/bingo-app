@@ -5,15 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Bingo;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class BingoController extends BingoBaseController
 {
-    public function index()
-    {
-        //
-    }
-
     public function start(): JsonResponse
     {
         /** @var User $user */
@@ -34,8 +28,6 @@ class BingoController extends BingoBaseController
 
     public function pick(Bingo $bingo): JsonResponse
     {
-        // retrieve data from db
-        // $bingo->card;
         return response()->json($bingo->card->generateRandom());
     }
 
@@ -61,13 +53,9 @@ class BingoController extends BingoBaseController
         $userCard = $user->card;
         $bingoCard = $bingo->card;
 
-
-
-        $bingo = ['b', 'i', 'n', 'g', 'o'];
-
         $isVerified = true;
 
-        foreach ($bingo as $b) {
+        foreach (static::BINGO as $b) {
             $userData = explode(',', $userCard->{$b});
             $bingoData = explode(',', $bingoCard->{$b});
 
@@ -83,23 +71,8 @@ class BingoController extends BingoBaseController
         return response()->json($isVerified);
     }
 
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show(Bingo $bingo): JsonResponse
     {
         return response()->json($bingo);
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
     }
 }
