@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Card extends Model
 {
@@ -11,23 +12,35 @@ class Card extends Model
 
     protected $fillable = ['b', 'i', 'n', 'g', 'o'];
 
+    public function card(): HasOne
+    {
+        return $this->hasOne(Card::class);
+    }
+
     public function generateRandom()
     {
+        $history = $this->card()->firstOrCreate();
+
         $data = [
-            'b' => $this->b,
-            'i' => $this->i,
-            'n' => $this->n,
-            'g' => $this->g,
-            'o' => $this->o,
+            'b' => [1, 15],
+            'i' => [16, 30],
+            'n' => [31, 45],
+            'g' => [46, 60],
+            'o' => [61, 75]
         ];
 
         $letter = array_rand($data);
-        $numbers = explode(',', $data[$letter]);
-        $number = $numbers[array_rand($numbers)];
+        [$min, $max] = $data[$letter];
+        $number = array_rand(range($min, $max));
 
-        // exclude the center
-        if ($letter == 'n' && $number == 0) {
-            $this->generateRandom();
+        // TODO: optimize, time constraint
+        // check if number and letter combo exists in history
+        $historyData = empty($history->{$letter}) ? [] : explode(',', $history->{$letter});
+
+        if (!in_array($number, $historyData)) {
+            $history->{$letter} = empty($history->{$letter}) ? $number : $history->{$letter} . ",$number";
+
+            $history->save();
         }
 
         return [$letter, $number];
